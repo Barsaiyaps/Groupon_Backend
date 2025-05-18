@@ -3,14 +3,15 @@ const productRouter = express.Router();
 const {productModel} = require("../models/product.model");
 
 
-productRouter.get("/get-product",async (req,res)=>{
-    try {
-        const data = await productModel.find();
-        res.send(data)
-    } catch (error) {
-        res.send(error)
-    }
-})
+productRouter.get("/get-product", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 15;
+    const data = await productModel.find().limit(limit);
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 productRouter.post("/add-product",async (req,res)=>{
     try {
